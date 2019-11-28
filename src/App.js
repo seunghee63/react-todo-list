@@ -16,7 +16,7 @@ class App extends Component {
       { id: 2, color : '#12b886'},
       { id: 3, color : '#228ae6'}
     ],
-    selected_color: '#f03e3e',
+    selected_color: '#343a40',
     todos: [
       // { id: 0, text: ' 리액트 소개', checked: false },
       // { id: 1, text: ' 리액트 소개', checked: true },
@@ -79,7 +79,6 @@ class App extends Component {
   }
 
   handleTextColor = (color) => {
-    //const { selected_color } = this.state;
     this.setState({
       selected_color : color
     });
@@ -114,7 +113,7 @@ class App extends Component {
           color={selected_color}/>
         )}>
 
-        <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove}/>
+        <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove} color={selected_color}/>
       </TodoListTemplate>
     );
   }
