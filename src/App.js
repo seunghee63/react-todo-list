@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import TodoListTemplate from './components/TodoListTemplate';
 import Form from './components/Form';
+import Palette from './components/Palette'
 import TodoItemList from './components/TodoItemList';
-
 
 class App extends Component {
 
@@ -10,6 +10,13 @@ class App extends Component {
 
   state = {
     input: '',
+    colors: [
+      { id: 0, color : '#343a40'},
+      { id: 1, color : '#f03e3e'},
+      { id: 2, color : '#12b886'},
+      { id: 3, color : '#228ae6'}
+    ],
+    selected_color: '#f03e3e',
     todos: [
       // { id: 0, text: ' 리액트 소개', checked: false },
       // { id: 1, text: ' 리액트 소개', checked: true },
@@ -24,14 +31,15 @@ class App extends Component {
   }
 
   handleCreate = () => {
-    const { input, todos } = this.state;
+    const { input, todos, colors } = this.state;
     this.setState({
       input: '', // 인풋 비우고
       // concat 을 사용하여 배열에 추가
       todos: todos.concat({
         id: this.id++,
         text: input,
-        checked: false
+        checked: false,
+        colors
       })
     });
   }
@@ -70,25 +78,42 @@ class App extends Component {
     });
   }
 
+  handleTextColor = (color) => {
+    //const { selected_color } = this.state;
+    this.setState({
+      selected_color : color
+    });
+  }
+
   render() {
-    const { input, todos } = this.state;
+    const { input, todos, colors, selected_color} = this.state;
     const {
       handleChange,
       handleCreate,
       handleKeyPress,
       handleToggle,
-      handleRemove
+      handleRemove,
+      handleTextColor
     } = this;
 
     return (
-      <TodoListTemplate form={(
+      <TodoListTemplate 
+
+        palette={(
+        <Palette 
+          colors = {colors}
+          textColor={handleTextColor}/>
+        )} 
+
+        form={(
         <Form 
           value={input}
           onKeyPress={handleKeyPress}
           onChange={handleChange}
           onCreate={handleCreate}
-        />
-      )}>
+          color={selected_color}/>
+        )}>
+
         <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove}/>
       </TodoListTemplate>
     );
